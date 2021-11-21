@@ -193,6 +193,7 @@ func (b *Builder) Run(ctx context.Context, ui packersdk.Ui, hook packersdk.Hook)
 		instanceStep = &awscommon.StepRunSpotInstance{
 			PollingConfig:                     b.config.PollingConfig,
 			AssociatePublicIpAddress:          b.config.AssociatePublicIpAddress,
+			ElasticIpAllocationId:             b.config.ElasticIpAllocationId,
 			LaunchMappings:                    b.config.LaunchMappings,
 			BlockDurationMinutes:              b.config.BlockDurationMinutes,
 			Ctx:                               b.config.ctx,
@@ -221,6 +222,7 @@ func (b *Builder) Run(ctx context.Context, ui packersdk.Ui, hook packersdk.Hook)
 		instanceStep = &awscommon.StepRunSourceInstance{
 			PollingConfig:                     b.config.PollingConfig,
 			AssociatePublicIpAddress:          b.config.AssociatePublicIpAddress,
+			ElasticIpAllocationId:             b.config.ElasticIpAllocationId,
 			LaunchMappings:                    b.config.LaunchMappings,
 			Comm:                              &b.config.RunConfig.Comm,
 			Ctx:                               b.config.ctx,

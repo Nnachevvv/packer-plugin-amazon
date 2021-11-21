@@ -65,6 +65,9 @@ type RunConfig struct {
 	// public IP addresses are not provided by default. If this is true, your
 	// new instance will get a Public IP. default: false
 	AssociatePublicIpAddress bool `mapstructure:"associate_public_ip_address" required:"false"`
+
+	// the IP address instance to have
+	ElasticIpAllocationId string `mapstructure:"elastic_ip_allocation_id" required:"false"`
 	// Destination availability zone to launch
 	// instance in. Leave this empty to allow Amazon to auto-assign.
 	AvailabilityZone string `mapstructure:"availability_zone" required:"false"`

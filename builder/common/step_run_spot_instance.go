@@ -28,6 +28,7 @@ type EC2BlockDeviceMappingsBuilder interface {
 type StepRunSpotInstance struct {
 	PollingConfig                     *AWSPollingConfig
 	AssociatePublicIpAddress          bool
+	ElasticIpAllocationId             string
 	LaunchMappings                    EC2BlockDeviceMappingsBuilder
 	BlockDurationMinutes              int64
 	Debug                             bool

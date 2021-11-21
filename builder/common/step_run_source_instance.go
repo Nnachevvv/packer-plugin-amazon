@@ -22,6 +22,7 @@ import (
 type StepRunSourceInstance struct {
 	PollingConfig                     *AWSPollingConfig
 	AssociatePublicIpAddress          bool
+	ElasticIpAllocationId             string
 	LaunchMappings                    EC2BlockDeviceMappingsBuilder
 	Comm                              *communicator.Config
 	Ctx                               interpolate.Context
@@ -265,6 +266,22 @@ func (s *StepRunSourceInstance) Run(ctx context.Context, state multistep.StateBa
 			}
 		}
 		return multistep.ActionHalt
+	}
+
+	if s.ElasticIpAllocationId != "" {
+		eip := &ec2.AssociateAddressInput{
+			AllowReassociation: aws.Bool(false),
+			AllocationId:       aws.String(s.ElasticIpAllocationId),
+			InstanceId:         aws.String(s.instanceId),
+		}
+
+		_, err := ec2conn.AssociateAddressRequest(eip)
+		if err != nil {
+			err := fmt.Errorf("Error setting Elastic IP address on %s: %s", s.instanceId, err)
+			state.Put("error", err)
+			ui.Error(err.Error())
+			return multistep.ActionHalt
+		}
 	}
 
 	// there's a race condition that can happen because of AWS's eventual
